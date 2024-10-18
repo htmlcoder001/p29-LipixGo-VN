@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <script> localStorage.setItem('offer_id', '{offer_id}') </script>
+
+  <link rel="shortcut icon" href="images/med.png" type="image/x-icon">
+  <script src="js/jquery.min.js"></script>
+
+  <title>Bác sĩ tim mạch nổi tiếng Việt Nam chia sẻ:
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <link media="all" href="css/index.css" type="text/css" rel="stylesheet">
+  <link media="all" href="css/orderForm.css" type="text/css" rel="stylesheet">
+  <link rel="stylesheet" href="css/form.css">
+  <link rel="stylesheet" href="css/header.css">
+  <script src="js/dr-dtime.js"></script>
+
+
+</head>
+
+<body>
+<header class="header">
+  <div class="header__logo">
+    <a href="">
+      <img src="images/logo.png" alt="">
+    </a>
+  </div>
+</header>
+<nav class="header__nav">
+  <div class="header__nav__container">
+    <a href=""><img src="images/icon-home-star.png" width="23px" height="23px" alt=""></a>
+    <a href="">Kinh tế hội nhập</a>
+    <a href="">Chuyển đổi số </a>
+    <a href="">Chính sách</a>
+    <a href="">Văn hóa xã hội </a>
+    <a href="">Nghiên cứu pháp luật</a>
+    <a href="">Thực tiễn quản lý</a>
+    <a href="">Việt nam điểm đến</a>
+    <div class="header__nav__container__buttons">
+      <a href="">
+        <img src="fonts/dots-9-svgrepo-com.svg" alt="">
+      </a>
+      <a href="">
+        <img src="fonts/search-magnifying-glass-svgrepo-com.svg" alt="">
+      </a>
+    </div>
+  </div>
+</nav>
+
+
+<div id="notify" class="notify">
+  <div class="notify__image">
+    <img id="notify__image" src="images/product.png" alt="">
+  </div>
+  <div class="notify__text">
+    <div id="notify__name" class="notify__name">Đức Minh 034489020xx</div>
+    <div id="notify__text" class="notify__text">Đã đặt thành công 1 sản phẩm</div>
+    <div id="notify__time" class="notify__time">2 phút trước</div>
+  </div>
+</div>
+<style>
+  .notify {
+    z-index: 99;
+    position: fixed;
+    box-shadow: 0 0 10px 0 #bbbbbb;
+    top: -200px;
+    left: 10px;
+    font-size: 15px;
+    background: rgba(255, 255, 255, 0.99);
+    border-radius: 50px;
+    padding: 5px;
+    transition: all 2s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .notify__image {
+    border-radius: 50%;
+    height: 60px;
+    width: 60px;
+    max-width: 60px;
+    max-height: 60px;
+    padding: 10px;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  #notify__image {
+    height: 50px;
+    width: 50px;
+  }
+
+  .notify-show {
+    top: 10px;
+  }
+
+  .notify__text {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 2px;
+    padding-right: 5px;
+  }
+
+  .notify__time {
+    font-size: 14px;
+    color: #444444;
+  }
+
+  .desktop-graph {
+    display: block;
+  }
+
+  .mob-graph {
+    display: none !important;
+  }
+
+  @media (max-width: 1000px) {
+    .desktop-graph {
+      display: none !important;
+    }
+
+    .mob-graph {
+      display: block !important;
+    }
+  }
+</style>
+<script>
+  const notifyIntervalTime = 10 // Интервал между уведомлениями
+  const notifyShowTime = 5     // Время показа уведомления
+  const maxProductCount = 3    // Максимальное кол-во купленного товара
+  const notifyMaxBuyTime = 6   // Максимальное время пукупки (купленно Х минут назад)
+
+  const names = [
+    'Tiến Dũng 09353625xx',
+    'Huyền Thanh 091258905xx',
+    'Phan Hải 09638957xx',
+    'Trần Hồng 091258905xx',
+    'Đức Minh 034489020xx',
+    'Duy Hùng 09353625xx',
+    'Mai Hà 09089017xx',
+    'Kiều Anh 034489020xx',
+    'Khánh Linh 09089017xx',
+    'Anh Tú 090357612xx',
+    'Bùi Ngọc 09638957xx',
+    'Thanh Lâm 090357612xx'
+  ]
+
+  const notification = document.getElementById('notify')
+  const notifyImage = document.getElementById('notify__image')
+  const notifyName = document.getElementById('notify__name')
+  const notifyTime = document.getElementById('notify__time')
+
+  function randomIntFromInterval(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min)
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    let name_index = 0
+    setInterval(function () {
+      if (name_index == names.length) {
+        name_index = 0
+      }
+      notifyName.innerHTML = names[name_index]
+      //notifyImage.src = `notify_image/${name_index + 1}.jpg`
+      notifyImage.src = `images/product.png`
+      notifyTime.innerHTML = `Đã đặt thành công ${randomIntFromInterval(1, maxProductCount)} sản phẩm`
+      notifyTime.innerHTML = `${randomIntFromInterval(1, notifyMaxBuyTime)} phút trước`
+
+      notification.classList.add('notify-show')
+      setTimeout(function () {
+        notification.classList.remove('notify-show')
+        name_index++
+      }, notifyShowTime * 1000)
+    }, (notifyIntervalTime * 1000) + (notifyShowTime * 1000))
+  })
+</script>
+
+
+<div id="bodyWrapper">
+  <div id="mainWrapper">
+    <div id="wrapper" style="display:block;">
+      <div id="content">
+        <div class="padWrap">
+          <div class="article__text js-mediator-article">
+            <div class="title">
+              <h1>Nghị quyết ngày 18 tháng 5 năm 2023 về việc áp dụng các biện pháp quyết liệt chống tăng
+                huyết áp và bệnh tim mạch đã có hiệu lực</h1>
+              <hr>
+              <h2 style="color: #BE1C1C;">Sáng kiến <strong>“TƯƠNG LAI KHÔNG TĂNG HUYẾT ÁP"</strong> của
+                Tổ chức Thế giới
+                đã chính thức có hiệu lực pháp lý, <strong>mang lại cú đòn mạnh mẽ đối với sự lan rộng
+                  của các
+                  bệnh về mạch máu và tim trên toàn cầu</strong>. Trích lời phát biểu của Phó Tổng Thư
+                ký đại diện
+                tại Việt Nam, <strong>ông Đỗ Khôi</strong>: “Cần khẩn trương xem xét lại công tác phòng
+                ngừa tăng huyết
+                áp và bệnh tim đang được áp dụng phổ biến. Những đổi mới này liên quan đến mọi công dân
+                trong cả nước, <strong>bất kể có bảo hiểm hay tình trạng xã hội".</strong></h2>
+            </div>
+            <img src="images/new/meet.jpg" width="100%" style="margin: 0;">
+            <div class="article_content">
+
+              <p>Không ai có thể phủ nhận rằng ngày nay các bệnh liên quan đến tim, đặc biệt là tăng huyết
+                áp, đang có xu hướng trở thành dịch bệnh. Chỉ trong năm ngoái, sự lan truyền của căn
+                bệnh này đã tăng <strong>40%</strong> trong số người trưởng thành trên <strong>30
+                  tuổi</strong>. Tỷ lệ tử
+                vong do hậu quả
+                của bệnh này đã tăng kỷ lục <strong>34%</strong>. Điều này có nghĩa là gần như mỗi người
+                thứ hai tại Việt
+                Nam hiện đang đối mặt với nguy cơ trực tiếp từ “Kẻ giết người thầm lặng".
+              </p>
+
+              <h3 style="color: #BE1C1C;">CHÚ Ý! NẾU BẠN NHẬN THẤY BẤT KỲ TRIỆU CHỨNG NÀO SAU ĐÂY, HÃY LẬP
+                TỨC ĐẾN GẶP BÁC SĨ!</h3>
+
+              <div class="vazhno">
+                <p>Danh sách triệu chứng:</p>
+                <ol>
+                  <li>Chóng mặt và đau đầu;</li>
+                  <li>Cảm giác mạch đập ở các vùng khác nhau của cơ thể như phía sau đầu và thái
+                    dương;
+                  </li>
+                  <li>Cảm giác “mờ mịt" trong đầu, giảm thị lực;</li>
+                  <li>Tiếng ù trong tai và cảm giác nghe thấy nhịp tim;</li>
+                  <li>Đau thắt ở ngực;</li>
+                  <li>Mất ngủ và mệt mỏi;</li>
+                  <li>Chán ăn và buồn nôn;</li>
+                  <li>Khó thở.</li>
+                </ol>
+              </div>
+
+              <img src="images/stats.png" alt="" class="desktop-graph">
+              <img src="images/stats2mob.jpg" alt="" class="mob-graph">
+
+              <h3 style="color: #BE1C1C;">TẤT CẢ NGƯỜI VIỆT NAM CẦN ĐOÀN KẾT TRONG CUỘC CHIẾN CHỐNG LẠI SỰ
+                LAN RỘNG CỦA CÁC BỆNH TIM MẠCH</h3>
+
+              <p><strong>Đại diện Bộ Y tế và Bộ Nông nghiệp và Phát triển Nông thôn</strong> đã trình bày
+                thông tin cập
+                nhật về sự lan truyền của tăng huyết áp trong khuôn khổ Chiến lược Quốc gia về phòng
+                ngừa và kiểm soát bệnh tim mạch tại Việt Nam giai đoạn <strong>2023-2030</strong>, tầm
+                nhìn đến năm <strong>2045</strong>.
+                <strong>Diệu Trinh phát biểu</strong></p>
+
+              <p>"<strong>Từ năm 2017</strong>, chúng tôi đã triển khai kế hoạch hành động nhằm ngăn chặn
+                <strong>và đẩy lùi sự lan</strong>
+                rộng của các bệnh liên quan đến tim mạch trong lĩnh vực nông nghiệp. Kể từ đó, nhiều văn
+                bản pháp luật đã được ban hành hoặc sửa đổi để tăng cường các biện pháp phòng chống các
+                bệnh này trong ngành nông nghiệp. Điều quan trọng là chính quyền ở mọi cấp, từ trung
+                ương đến địa phương, cùng cộng đồng phải hỗ trợ thực hiện các quy định này và Kế hoạch
+                Hành động Quốc gia. Mỗi người Việt Nam,<strong> bất kể có làm việc trong lĩnh vực
+                  nông</strong> nghiệp
+                hay không, đều có thể đóng góp bằng cách sử dụng đúng thuốc cho đúng bệnh với liều lượng
+                phù hợp theo quy định."</p>
+              <img src="images/new/rice.jpg" alt="">
+
+              <h3 style="color: #BE1C1C;">
+                Thứ trưởng Túc kêu gọi tất cả người dân Việt Nam đoàn kết để ngăn chặn sự gia tăng số
+                lượng người mắc bệnh tăng huyết áp:</h3>
+
+              <p>“Mặc dù chúng ta đã đạt được những kết quả quan trọng kể từ khi xây dựng Kế hoạch Hành
+                động Quốc gia vào năm 2013, chúng ta vẫn đang đối mặt với nhiều thách thức trong việc
+                phòng ngừa và kiểm soát. Xu hướng gia tăng các bệnh tim mạch đang tiếp tục. Do đó, chúng
+                tôi đã thực hiện các biện pháp khẩn cấp để khởi động chương trình cấp bách <strong>'TƯƠNG
+                  LAI
+                  KHÔNG TĂNG HUYẾT ÁP"</strong>, nhằm giảm thiểu rủi ro lan rộng của các bệnh tim mạch
+                và mạch máu.
+                Trong khuôn khổ chương trình này, ngân sách đã phân bổ <strong>30 tỷ đồng cho
+                  việc</strong> sản xuất và
+                phân phối thuốc <a href="">LipixGO</a> siêu hiệu quả của Đức tại Việt Nam với mức giá
+                tối đa phù hợp
+                cho các tầng lớp dân cư rộng rãi.</p>
+
+              <p>
+                Chính nhờ thuốc này mà các bác sĩ từ Đức đã gần như hoàn toàn loại bỏ các bệnh liên quan
+                đến tim mạch và mạch máu ở Đức. Theo dữ liệu do Tổ chức Y tế Thế giới cung cấp, chúng
+                tôi được biết rằng khoảng <strong>80% những người</strong> đã điều trị bằng loại thuốc
+                này đã hồi phục
+                thành công mặc dù gặp phải những trường hợp phức tạp nhất như liệt chi và thậm chí nửa
+                thân người. <strong>Do đó, nhiệm vụ của chúng ta là sớm đưa chất này vào thị trường
+                trong
+                nước.</strong>"</p>
+
+
+              <h3 style="color: #BE1C1C;">
+                BÍ MẬT HIỆU QUẢ CỦA THUỐC <a href="">LipixGO</a>
+              </h3>
+
+              <p>Bác sĩ người Đức <strong>Giovanni Mayo</strong>, đại diện chính của <strong>Tổ chức Y tế
+                Thế giới tại Việt Nam</strong>, đã
+                đánh giá cao Chiến lược Quốc gia của chính phủ về phòng ngừa và kiểm soát tăng huyết
+                áp.</p>
+
+
+              <img src="images/content-3.jpg" alt="" style="text-align: center">
+
+              <p>"Như đã biết, nguyên nhân <strong>gốc rễ của sự lan rộng cực kỳ cao của các bệnh
+                liên</strong> quan đến
+                tim là do ô nhiễm môi trường ngày càng tăng, nước kém chất lượng và chất lượng thực phẩm
+                giảm sút. Hậu quả của tất cả những điều này là sự <strong>tích sttụ các chất độc hại,
+                  cholesterol
+                  có hại và độc tố trong mạch máu</strong>. Tất cả những yếu tố này ảnh hưởng đáng kể
+                đến sự lan
+                rộng của tăng huyết áp và các bệnh tim mạch ở nước ta.</p>
+
+              <p>Không ai có thể phủ nhận rằng để ngăn chặn sự <strong>xuất hiện của căn bệnh này, cần
+                phải tuân
+                thủ chế độ ăn uống đúng, tránh căng thẳng và duy trì hoạt động thể chất cân bằng. Đáng
+                tiếc, đối với một số lượng lớn người,</strong> việc tuân thủ các biện pháp này không khả
+                thi, vì
+                vậy để làm việc hiệu quả trong việc đảm bảo phòng ngừa các bệnh liên quan đến hệ tim
+                mạch, một phương tiện đặc biệt <a href="">LipixGO</a> đã được phát triển và cung cấp,
+                công thức hoạt
+                động của nó hoàn toàn nhằm vào việc giải độc <strong>nhanh chóng và làm sạch mạch máu
+                  của cơ thể
+                  con người.</strong>"</p>
+
+              <img src="images/new/jiovanni.jpg" alt="" style="text-align: center; max-height: 520px">
+
+              <h3 style="color: #BE1C1C;">CHỈ MỘT LIỆU TRÌNH THUỐC LipixGO CÓ THỂ KÉO DÀI TUỔI THỌ CON
+                NGƯỜI THÊM HAI MƯƠI NĂM</h3>
+
+              <p>Tiến sĩ <strong>Phúc Lưu</strong>, chuyên gia tim mạch hàng đầu của Đại học Y Hà Nội,
+                cũng cho biết:</p>
+
+
+              <p>"Trong quá trình nghiên cứu trên nhóm bệnh nhân kiểm soát, nhóm nghiên cứu của chúng tôi
+                đã đặc biệt lựa chọn những bệnh nhân khó khăn nhất. Đối với chúng tôi, hoàn toàn không
+                thể chấp nhận việc đưa ra thị trường một sản phẩm mà không có cơ sở chứng minh hiệu quả
+                rộng rãi trên những trường hợp nặng nhất. Một trong những ví dụ điển hình là trường hợp
+                của <strong>An Nhiên Vũ</strong>. Khi chúng tôi tiếp cận cô ấy với đề nghị tham gia vào
+                thí nghiệm của
+                chúng tôi, cô ấy gần như bị liệt và không thể rời khỏi giường. Nhưng hãy nhìn lá thư mà
+                chúng tôi nhận được sau khi kết thúc thí nghiệm!"</p>
+
+              <div class="pg bg_tt" style="">
+
+                <figure class="Figure" style="text-align: center;">
+                  <img src="./images/content-4.jpg">
+                  <span class="Figure-caption">Chú thích ảnh: Bà <strong>An Nhiên Vũ</strong>, 75 tuổi – Người đã
+                                            từng suýt chết vì cao huyết áp và các bệnh lý nền khác.
+                                        </span>
+                </figure>
+
+
+                <p>“Cảm ơn bác sĩ rất nhiều chính ông đã cứu sống tôi trong lúc nguy kịch nhất!
+                  Khi con gái bác sĩ, tôi thực sự đã bất tỉnh không biết gì cả. Toàn thân tê
+                  liệt, tôi chỉ biết nằm một chỗ thoi thóp qua ngày. Tôi bị nhồi máu não khi
+                  được đưa đến bệnh viện, bác sĩ sau khi kiểm tra qua loa. Họ còn không thèm
+                  điều trị cho tôi mà chỉ bảo con gái hãy mang tôi về chuẩn bị lo hậu sự.
+                  Nhưng con gái tôi đã không bỏ cuộc mà kiên quyết gọi điện thoại cho bác sĩ.
+                  Và sau đó con bé bắt đầu đưa cho tôi uống một loại thuốc mà bác sĩ gửi
+                  xuống. May mắn thay, chỉ sau 1 tuần bệnh của tôi đã có chuyển biến tốt. Đặc
+                  biệt, huyết áp ổn định không hề tăng. Tôi đã bắt đầu tỉnh táo lại được trở
+                  về từ cõi chết. Một tuần trước, tôi được con gái đi kiểm tra tại bệnh viện
+                  huyện. Khi nhận kết quả thấy các chỉ số đều tốt. Tôi thậm chí còn khỏe mạnh
+                  so với lứa tuổi của mình. Điều này khiến tôi đã rất ngạc nhiên. Cách đây chỉ
+                  vài tháng, tôi nghĩ mình đã đặt một chân xuống mồ rồi. Nhưng bây giờ tôi tự
+                  tin rằng mình chắc chắn sẽ sống. Và thậm chí còn có thể sống khỏe mạnh đến
+                  100 tuổi. Cảm ơn bác sĩ rất nhiều vì sự giúp đỡ của bạn đã tái sinh tôi thêm
+                  một lần nữa. " </p>
+              </div>
+
+              <h3 style="color: #BE1C1C;">Quy định số 139/2 của Bộ Y tế Việt Nam Bảo đảm Hiệu quả của
+                Thuốc LipixGO</h3>
+              <p>Tổ chức Thế giới <strong>"TƯƠNG LAI KHÔNG TĂNG HUYẾT ÁP"</strong> đảm bảo hiệu quả của
+                thuốc. Dưới đây là bảng tóm tắt cho thấy thời gian cần thiết để cơ thể phục hồi hoàn
+                toàn:</p>
+
+              <table class="table">
+                <thead>
+                <tr>
+                  <th>Tên</th>
+                  <th>Thời gian tối thiểu</th>
+                  <th>Thời gian tối đa</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                  <td>Loại bỏ cặn bã và độc tố từ các cơ quan nội tạng</td>
+                  <td>2 tuần</td>
+                  <td>2 tháng</td>
+                </tr>
+                <tr>
+                  <td>Làm sạch hoàn toàn mạch máu khỏi cholesterol có hại</td>
+                  <td>3 tuần</td>
+                  <td>6 tuần</td>
+                </tr>
+                <tr>
+                  <td>Làm sạch các mô bên ngoài của con người khỏi mỡ thừa</td>
+                  <td>4 tuần</td>
+                  <td>8 tuần</td>
+                </tr>
+                </tbody>
+              </table>
+
+              <p><strong>Nếu sau thời gian được nêu trong quy định này, bạn không nhận thấy hiệu quả đáng
+                kể,
+                chúng tôi, tổ chức, sẽ hoàn lại tiền cho bạn!</strong></p>
+
+              <p><strong>Trong số một trăm người</strong> tham gia nghiên cứu loại thuốc mới, chín mươi
+                <strong>tám người đã hoàn
+                  toàn được chữa khỏi</strong>. Điều đáng nói là gần một nửa trong số họ đang trong
+                tình trạng nguy
+                kịch, <strong> và các bác sĩ tại bệnh viện đã không còn hy vọng về họ.</strong></p>
+
+              <h4 style="color: #BE1C1C; text-align: center">Hiện tại, đã gia tăng các trường hợp làm giả
+                thuốc và phân phối hàng giả bởi những kẻ
+                lừa đảo. Họ phân phối thuốc với tên gọi và đặc tính tương tự trong các chuỗi nhà thuốc
+                và cửa hàng với giá gấp ba lần giá thực tế.</h4>
+
+              <h3 style="color: #BE1C1C; text-align: center">HÃY NHỚ RẰNG GIÁ KHÔNG THỂ VƯỢT QUÁ 1.180.000
+                ĐỒNG!</h3>
+
+              <img src="images/product.png" alt="">
+
+              <div class="vazhno">
+                <h3>THÔNG TIN QUAN TRỌNG DÀNH CHO NHỮNG AI MUỐN THỬ LIPIXGO!</h3>
+                <p>
+                  Nhằm hưởng ứng phong trào “TƯƠNG LAI KHÔNG TĂNG HUYẾT ÁP”, ban biên tập
+                  chúng tôi đã
+                  kêu gọi nhà sản xuất <a href="">LipixGo</a> tổ chức chương trình khuyến mại giảm giá
+                  50% trên mỗi
+                  sản phẩm, từ
+                  1.180.000 VNĐ <b>chỉ còn 590.000 VNĐ</b>. Chương trình chỉ kéo dài đến <b>
+                  <script>dtime_nums(-1, true)</script>
+                </b>.
+                </p>
+                <p>CẨN THẬN HÀNG GIẢ VÀ TIẾT KIỆM TIỀN BẰNG CÁCH MUA SẢN PHẨM VỚI GIẢM GIÁ 50%!</p>
+              </div>
+              <style>
+                .vazhno, .quote, .good {
+                  font-family: sans-serif;
+                  background-color: rgb(243, 243, 243);
+                  border-style: solid;
+                  border-color: rgb(219, 1, 15);
+                  border-width: 3px;
+                  border-radius: 5px;
+                  padding: 25px 15px;
+                  color: rgb(9, 1, 96);
+                  font-weight: 600;
+                  line-height: 1.6;
+                  margin: 30px 0;
+                }
+
+                .quote {
+                  border-color: rgb(9, 1, 96);
+                }
+
+                .good {
+                  border-color: green;
+                }
+
+                .vazhno b {
+                  color: rgb(219, 1, 15);
+                }
+
+                .table {
+                  width: 100%;
+                  margin-bottom: 20px;
+                  border: 1px solid #dddddd;
+                  border-collapse: collapse;
+                }
+
+                .table th {
+                  font-weight: bold;
+                  padding: 5px;
+                  background: #efefef;
+                  border: 1px solid #dddddd;
+                }
+
+                .table td {
+                  border: 1px solid #dddddd;
+                  padding: 5px;
+                }
+              </style>
+
+              <form id="form" class="form js-intl-validation-main" action="" style="margin-bottom: 20px;">
+                <div class="form__header">
+                  <div class="form__header__img">
+                    <img src="./images/byt-stamp.png" style="max-width: 112px;" width="112px"
+                         alt="">
+                  </div>
+                  <div class="form__header__text">
+                    <svg style="transform: translateY(5px); width:24px; height:24px;margin:0"
+                         xmlns="http://www.w3.org/2000/svg"
+                         xmlns:xlink="http://www.w3.org/1999/xlink"
+                         version="1.1" x="0px" y="0px" viewBox="0 0 32 32"
+                         enable-background="new 0 0 32 32"
+                         xml:space="preserve" preserveAspectRatio="none"
+                         width="24px" height="24px" class=""
+                         fill="rgba(17, 123, 42, 1)">
+                                                <path
+                                                  d="M28.245,4.86C20.391,9.676,14.691,15.751,12.131,18.8L5.86,13.887L3.09,16.12l10.836,11.02  c1.865-4.777,7.771-14.113,14.983-20.746L28.245,4.86z">
+                                                </path>
+                                            </svg>
+                    Chứng nhận hàng chính hãng
+                  </div>
+                </div>
+                <div class="form__product">
+                  <div class="form__product__title">Điền vào biểu mẫu</div>
+                  <div class="form__product__subtitle">Nhận ngay Lipixgo với
+                    giá <span>590.000 VNĐ</span></div>
+                  <div class="form__product__img">
+                    <img src="images/product.png" alt=""
+                         style="max-width: 300px;width: 100%; margin: 25px auto !important">
+                  </div>
+
+                  <div class="form__product__counter">
+                    CÒN TRONG KHO <span id="goodsCount">39</span> gói
+                  </div>
+                  <style>
+                    .form__product__counter {
+                      width: fit-content;
+                      color: #BE1C1C;
+                      margin: auto;
+                      padding: 5px;
+                      font-size: 32px;
+                      font-weight: 600;
+                      border-radius: 5px;
+                      margin-bottom: 20px;
+                      text-transform: uppercase;
+                    }
+
+                    .form__product__counter > #goodsCount {
+                      background: #BE1C1C;
+                      color: #fff;
+                      padding: 5px;
+                      border-radius: 5px;
+                    }
+                  </style>
+
+                  <div class="form__product__oldprice">Giá cũ: 1.180.000 VNĐ
+                  </div>
+                  <img id="discoundIcon" src="./images/discound.png" alt="">
+                  <div class="form__product__newprice">
+
+                    <span style="color: rgb(3, 128, 3) !important;">590.000 VNĐ</span></div>
+                  <style>
+                    .form__product__newprice {
+                      gap: 10px;
+                    }
+
+                    #discoundIcon {
+                      display: block;
+                      margin: 10px auto !important;;
+                      width: 70px;
+                      animation-name: rotationDiscount;
+                      animation-duration: 5s;
+                      animation-iteration-count: infinite;
+                    }
+
+                    @keyframes rotationDiscount {
+                      0% {
+                        transform: rotate(0deg);
+                      }
+                      20% {
+                        transform: rotate(-40deg);
+                      }
+                      40% {
+                        transform: rotate(1100deg);
+                      }
+                      60% {
+                        transform: rotate(0deg);
+                      }
+                    }
+                  </style>
+                </div>
+                <div class="form__inputs">
+                  <label for="name">
+                    <img src="./fonts/arrow.svg" style="max-width: 22px; max-height: 22px">Nhập tên
+                    của
+                    bạn<img
+                    src="./fonts/arrow.svg" style="max-width: 22px; max-height: 22px">
+                  </label>
+                  <input id="name" class="browser-default" type="text" placeholder="Họ và Tên"
+                         name="name" required>
+
+                  <label for="phone">
+                    <img src="./fonts/arrow.svg" style="max-width: 22px; max-height: 22px">Nhập số
+                    điện
+                    thoại liên hệ<img
+                    src="./fonts/arrow.svg" style="max-width: 22px; max-height: 22px">
+                  </label>
+                  <input id="phone" class="browser-default" type="tel" placeholder="Số điện thoại"
+                         name="phone" style="width: -webkit-fill-available;" required>
+                  <label for="submit">
+                    <img src="./fonts/arrow.svg" style="max-width: 22px; max-height: 22px">Nhấn vào
+                    đây
+                    để đặt hàng<img
+                    src="./fonts/arrow.svg" style="max-width: 22px; max-height: 22px">
+                  </label>
+                  <input id="submitButton" type="submit"
+                         value="HOÀN TẤT ĐƠN ĐĂNG KÝ">
+                  <input name="sub_id1" type="hidden" value="{sub_id1}">
+                  <style>
+                    #submitButton {
+                      margin: 10px auto;
+                      width: 100%;
+                      animation-name: submitBounce;
+                      animation-duration: .5s;
+                      animation-iteration-count: infinite;
+                      animation-direction: alternate;
+                    }
+
+                    @keyframes submitBounce {
+                      from {
+                        transform: scale(1);
+                      }
+                      to {
+                        transform: scale(1.1);
+                      }
+                    }
+                  </style>
+                </div>
+                <div class="form__footer">
+                  <div class="form__footer__first">*Số lượng sản phẩm phụ
+                    thuộc vào tình trạng và liệu trình điều trị của mỗi cá
+                    nhân
+                  </div>
+                  <div class="form__footer__second">Đơn hàng sẽ được chuyển
+                    MIỄN PHÍ ĐẾN TẬN NHÀ theo đúng yêu cầu của bạn đồng thời
+                    đảm bảo tiêu chuẩn phòng chống dịch.
+                  </div>
+                </div>
+              </form>
+
+              <div class="round_serts">
+                <div>
+                  <img src="images/round_sert1.png" alt="">
+                  <span>Nguồn gốc<br> thiên nhiên</span>
+                </div>
+                <div>
+                  <img src="images/round_sert2.png" alt="">
+                  <span>Bác sỹ<br> khuyên dùng</span>
+                </div>
+                <div>
+                  <img src="images/round_sert3.png" alt="">
+                  <span>Chứng nhận<br> an toàn</span>
+                </div>
+              </div>
+              <style>
+                .round_serts {
+                  display: flex;
+                  justify-content: center;
+                  gap: 5px;
+                }
+
+                .round_serts > div {
+
+                  display: flex;
+                  flex-direction: column;
+                  gap: 0px;
+                  text-align: center;
+                  font-size: 17px;
+                }
+
+                .round_serts > div > img {
+                  max-width: 140px !important;
+                  width: 100%;
+                  margin: 0 !important;
+                }
+              </style>
+
+              <!-- бланк -->
+
+              <!-- <h2 class="cetner"></h2> -->
+
+              <!-- <center id="form" style="margin-top:50px;">
+                  <form method="POST" id="order_form" action="post.php">
+
+
+
+
+
+
+                      <span id="cta"></span>
+
+                      <div id="order_form_place" style="display:block;">
+                          <center>
+                              <img src="./images/med.png" style="max-width:100px;">
+                              <h2>ĐƠN ĐĂNG KÝ CHÍNH THỨC
+                              </h2>
+                              <span style="color:blue;font-size:14px;">Số lượng đã đặt hàng: 29 957
+                                  trong tổng số 30.000 từ ngày <span
+                                      class="date-0">16.05.2023</span></span>
+                          </center>
+                          <div>
+                              <span style="font-size:16px;">Nhận ưu đãi từ phòng khám tim mạch khi mua
+                                  Lipixgo</span>
+                          </div>
+                          <div
+                              style="margin:15px 10px -5px 10px;border:2px solid #0299ff;padding:10px;">
+                              <span><b>Để nhận được "Lipixgo" với giá chỉ 590 đồng, hãy điền Tên và
+                                      số điện thoại liên hệ vào ô bên dưới và bấm vào nút "NHẬN
+                                      NGAY"</b></span>
+                          </div>
+                          <div class="order_form_pole">
+                              <label>Tên của bạn: </label>
+                              <input type="text" name="name" required="" placeholder="Tên của bạn">
+                          </div>
+                          <div class="order_form_pole">
+                              <label>Số điện thoại: </label>
+                              <input type="tel" name="phone" required="" placeholder="Số điện thoại">
+                              <div id="phone_error" style="color: red; display: none;">Nhập số điện
+                                  thoại chính xác</div>
+                          </div>
+                          <div style="margin-bottom:20px;">
+                              <button type="submit">NHẬN NGAY 590 </button>
+                          </div>
+                          <span class="additional">* Lưu ý: Dữ liệu của bạn được gửi trực tiếp đến
+                              Phòng khám và hoàn toàn được bảo mật, không ai có quyền truy cập vào
+                              chúng.</span>
+                      </div>
+
+
+                  </form>
+              </center> -->
+
+
+              <!-- бланк -->
+
+
+            </div>
+            <div id="comments">
+              <h2 class="spoint" data="11">Bình luận</h2>
+              <div class="row-y-item">
+                <div class="info">
+                  <div class="coment_ava"><img src="./images/1.jpg"></div>
+                  <span class="row-y-name">Hà Thị Nga <span
+                    class="randdate date-6">10.05.2023</span></span>
+                  <div class="pg"><a href="">LipixGo</a> khác gì so với các loại thuốc khác? Bà của
+                    tôi đã bị cao
+                    huyết áp năm nay là năm thứ năm. Chúng tôi đã thử rất nhiều loại thuốc, nhưng
+                    tất cả chỉ làm giảm các triệu chứng và gây ra tác dụng phụ. Thuốc này hoạt động
+                    như thế nào?
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="row-y-item">
+                <div class="info">
+                  <div class="coment_ava"><img src="./images/2.jpg"></div>
+                  <span class="name">Lê Đắc Tâm <span
+                    class="randdate date-6">10.05.2023</span></span>
+                  <div class="pg">Ban đầu, tôi cũng rất hoài nghi về tin tức rằng loại thuốc này có
+                    thể mang lại sự giúp đỡ thực sự. Nhưng khi tôi để lại yêu cầu trên trang web
+                    chính thức, nhân viên tư vấn đã giải thích cho tôi cách nó hoạt động. Hóa ra
+                    hoạt chất của <a href="">LipixGo</a> thực sự làm sạch mạch máu khỏi cholesterol
+                    có hại. Hơn
+                    nữa, nó thực hiện điều này khá nhanh chóng. Hai năm gần đây, tôi thường xuyên bị
+                    đau nửa đầu và đau ngực. Bác sĩ đã chẩn đoán tôi bị cao huyết áp, và cũng như
+                    nhiều người khác, tôi đã thử nhiều loại thuốc khác nhau để điều trị bệnh này.
+                    Nhưng chỉ có <a href="">LipixGo</a> mới thực sự giúp tôi. Tôi đảm bảo điều đó!
+                    Hơn nữa, họ còn
+                    cam kết hoàn tiền nếu sản phẩm này không giúp ích cho bạn.
+                  </div>
+                </div>
+              </div>
+
+              <div class="row-y-item">
+                <div class="info">
+                  <div class="coment_ava"><img src="./images/3.jpg"></div>
+                  <span class="name">Nguyễn Đăng Phúc <span
+                    class="randdate date-6">10.05.2023</span></span>
+                  <div class="pg">Ban đầu, tôi cũng rất hoài nghi về tin tức rằng loại thuốc này có
+                    thể mang lại sự giúp đỡ thực sự. Nhưng khi tôi để lại yêu cầu trên trang web
+                    chính thức, nhân viên tư vấn đã giải thích cho tôi cách nó hoạt động. Hóa ra
+                    hoạt chất của <a href="">LipixGo</a> thực sự làm sạch mạch máu khỏi cholesterol
+                    có hại. Hơn
+                    nữa, nó thực hiện điều này khá nhanh chóng. Hai năm gần đây, tôi thường xuyên bị
+                    đau nửa đầu và đau ngực. Bác sĩ đã chẩn đoán tôi bị cao huyết áp, và cũng như
+                    nhiều người khác, tôi đã thử nhiều loại thuốc khác nhau để điều trị bệnh này.
+                    Nhưng chỉ có <a href="">LipixGo</a> mới thực sự giúp tôi. Tôi đảm bảo điều đó!
+                    Hơn nữa, họ còn
+                    cam kết hoàn tiền nếu sản phẩm này không giúp ích cho bạn.
+                    <img src="./images/live1.jpg" width="100%"
+                         style="max-width: 300px; margin: 10px 0 0 0"
+                         alt="">
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="row-y-item">
+                <div class="info">
+                  <div class="coment_ava"><img src="./images/4.jpg"></div>
+                  <span class="name">Trần Trọng Vinh <span
+                    class="randdate date-5">11.05.2023</span></span>
+                  <div class="pg">Tôi cũng dùng <a href="">Lipixgo</a> được 3 tháng nay. Không chỉ
+                    bệnh cao
+                    huyết áp được cải thiện mà thị lực của tôi được cải thiện rất nhiều. Mắt tôi
+                    trước đây đeo kính lão mới có thể nhìn rõ. Thế mà từ khi uống <a
+                      href="">Lipixgo</a> mắt
+                    tôi ngày càng sáng ra không cần kính vẫn xỏ kim và xem tivi hàng ngày. Tôi
+                    đã giới thiệu <a href="">Lipixgo</a> cho tất cả những người cao tuổi trong khu
+                    sử dụng.
+                  </div>
+                </div>
+              </div>
+
+              <div class="row-y-item">
+                <div class="info">
+                  <div class="coment_ava"><img src="./images/5.jpg"></div>
+                  <span class="name">Lan Anh <span
+                    class="randdate date-4">12.05.2023</span></span>
+                  <div class="pg">Có lẽ tôi là bệnh nhân trẻ nhất ở đây, người mà cuộc sống đã được
+                    cứu bởi ông Phúc Lưu. Năm nay anh ấy mới 18 tuổi, nhưng đã gần 3 năm anh ấy bị
+                    cao huyết áp, kèm theo tình trạng mỡ máu và gan nhiễm mỡ. Vì căn bệnh này, anh
+                    ấy đã mất đi sức khỏe và trở nên yếu đuối như một con ốc sên. Năm ngoái, anh ấy
+                    suýt chết vì đột quỵ. Bệnh viện đã cứu sống anh ấy, nhưng cha mẹ yêu thương đã
+                    đưa anh ấy đến phòng khám của ông Hải. Khi tôi đến nơi, tôi đã bất tỉnh, nhưng
+                    ông Phúc Lưu nhanh chóng cho tôi uống 2 viên <a href="">LipixGo</a>. Chưa đầy 2
+                    giờ sau, trí óc
+                    tôi đã tỉnh táo trở lại. Ban ngày, bác sĩ cho tôi về nhà và dặn tôi uống 2-4
+                    viên mỗi ngày, tình trạng của tôi sẽ cải thiện. Và điều đó là đúng, sau 2 tháng
+                    sử dụng, huyết áp của tôi đã ổn định. Mỡ máu và gan nhiễm mỡ đã biến mất. Đặc
+                    biệt, cân nặng của tôi cũng giảm đáng kể từ 87 kg xuống chỉ còn 57 kg sau nửa
+                    năm uống <a href="">LipixGo</a>.
+                    <img src="./images/live7.jpg" width="100%"
+                         style="max-width: 300px; margin: 10px 0 0 0"
+                         alt="">
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="row-y-item">
+                <div class="info">
+                  <div class="coment_ava"><img src="./images/6.jpg"></div>
+                  <span class="name">Hoàng Đức <span
+                    class="randdate date-4">12.05.2023</span></span>
+                  <div class="pg">Liệu có phải lừa đảo không? Thuốc gì mà lại bán trôi nổi thế
+                    này?
+                  </div>
+                </div>
+              </div>
+
+              <div class="row-y-item">
+                <div class="info">
+                  <div class="coment_ava"><img src="./images/7.jpg"></div>
+                  <span class="name">Trần Văn Bằng <span
+                    class="randdate date-3">13.05.2023</span></span>
+                  <div class="pg">Bạn không hiểu ở đây đang nói về điều gì. Đây là một chương trình
+                    quốc tế mới, đã chữa khỏi cho hàng triệu người trên toàn thế giới và hiện đã bắt
+                    đầu dần lan rộng ở Việt Nam. Tôi đã thử dùng thuốc <a href="">LipixGO</a> và nó
+                    thực sự đã giúp
+                    tôi! Tôi bị chứng đau nửa đầu hành hạ, nhưng chỉ sau một tháng sử dụng liệu
+                    trình, cơn đau đã biến mất và không quay trở lại!
+                  </div>
+                </div>
+              </div>
+
+              <div class="row-y-item">
+                <div class="info">
+                  <div class="coment_ava"><img src="./images/8.jpg"></div>
+                  <span class="name">Ngọc Hoa <span
+                    class="randdate date-2">14.05.2023</span></span>
+                  <div class="pg">Hàng xóm của tôi đã phải bán cả một con bò để chữa bệnh cho bà của
+                    họ. Nhưng <a href="">LipixGO</a> thực sự hiệu quả! Tôi đã rất ngạc nhiên khi
+                    nghe câu chuyện
+                    này từ họ! Cuối cùng thì nhà nước cũng bắt đầu quan tâm đến những người dân bình
+                    thường! Có lẽ nếu chúng ta cùng chung tay và quyên góp tiền để mua thuốc
+                    <a href="">LipixGO</a>, cuộc sống của chúng ta sẽ trở nên tốt đẹp hơn.
+                  </div>
+                </div>
+              </div>
+
+              <div class="row-y-item">
+                <div class="info">
+                  <div class="coment_ava"><img src="./images/9.jpg"></div>
+                  <span class="name">Phương Anh <span
+                    class="randdate date-2">14.05.2023</span></span>
+                  <div class="pg">Mình cũng dùng <a href="">LipixGo</a> này rồi. Hiệu quả thật đấy.
+                    Mình thì
+                    không bị cao huyết áp nhưng lại hay bị đau đầu với chóng mặt. Đọc thấy
+                    nguyên nhân do mạch máu bị ách tắc nên mình cũng mua Lipixgo để dùng. Mới
+                    được 2 ngày mà đã hết sạch đau đầu, chóng mặt. Ngủ ngon giấc hơn nên ngày
+                    càng trẻ đẹp ra.
+                    <img src="./images/live5.jpg" width="100%"
+                         style="max-width: 300px; margin: 10px 0 0 0"
+                         alt="">
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="row-y-item">
+                <div class="info">
+                  <div class="coment_ava"><img src="./images/10.jpg"></div>
+                  <span class="name">Lê Minh Hoàng <span
+                    class="randdate date-2">14.05.2023</span></span>
+                  <div class="pg">Tôi là một bác sĩ làm trong ngành Y hơn 10 năm nay. Tôi phải
+                    khẳng định rằng Lipixgo là sản phẩm tốt nhất cho bệnh nhân cao huyết áp
+                    hiện nay ở Việt Nam. Sản phẩm này được chiết xuất từ thảo dược thiên nhiên
+                    an toàn và lành tính. Ngoài hiệu quả ổn định huyết áp, Lipixgo còn giúp
+                    giảm mỡ máu, ngăn chặn xơ vữa động mạch và chống đột quỵ rất tốt. Tôi đều
+                    khuyên bệnh nhân của mình sử dụng Lipixgo thay vì dùng thuốc Tây kéo dài.
+                  </div>
+                </div>
+              </div>
+
+              <div class="row-y-item">
+                <div class="info">
+                  <div class="coment_ava"><img src="./images/11.jpg"></div>
+                  <span class="name">Anh Quân <span
+                    class="randdate date-2">14.05.2023</span></span>
+                  <div class="pg">Như thường lệ! Ngay khi có một phương pháp thực sự, lập tức có người
+                    cố gắng làm giả nó! Bác yêu quý của tôi đã mua LipixGO ở hiệu thuốc với giá 2
+                    triệu đồng, nhưng đó là hàng giả! Thuốc không giúp ích gì cho ông ấy! LƯU Ý, HÃY
+                    MUA LIPIXGO CHỈ TRÊN TRANG WEB CHÍNH THỨC!
+
+                    <br>
+                    Sau khi bác tôi mua thuốc từ trang web chính thức và bắt đầu liệu trình điều
+                    trị, huyết áp của ông cuối cùng đã ổn định.
+                  </div>
+                </div>
+              </div>
+
+              <div class="row-y-item">
+                <div class="info">
+                  <div class="coment_ava"><img src="./images/12.jpg"></div>
+                  <span class="name">Lặng Thầm <span
+                    class="randdate date-2">14.05.2023</span></span>
+                  <div class="pg">Ở cái xứ thiên đường này bác sĩ thì thờ ơ vì bệnh nhân không có
+                    tiền. Dược sĩ thì kiếm chác trên xương máu của người dân. Các bác cứ phải
+                    sang Mẽo mới thấy người ta chăm sóc cho người dân tốt như thế nào. Cứ đến
+                    bệnh viện là được chăm sóc tận răng. Thuốc thì toàn thuốc tốt không à.
+                  </div>
+                </div>
+              </div>
+
+              <div class="row-y-item">
+                <div class="info">
+                  <div class="coment_ava"><img src="./images/13.jpg"></div>
+                  <span class="name">Hòa Dung <span
+                    class="randdate date-1">15.05.2023</span></span>
+                  <div class="pg">May quá bây giờ người dân lại có thể mua Lipixgo tại Việt Nam
+                    dễ dàng đến thế. Mình đang ở nước ngoài mỗi tháng phải gửi về cho mẹ ở nhà
+                    rất vất vả. Mình vừa đặt hàng giao tận nhà cho mẹ ở Hà Nam.
+                  </div>
+                </div>
+              </div>
+
+              <div class="row-y-item">
+                <div class="info">
+                  <div class="coment_ava"><img src="./images/14.jpg"></div>
+                  <span class="name">Long Hưng <span
+                    class="randdate date-0">16.05.2023</span></span>
+                  <div class="pg">Tôi ở trong Nam muốn mua Lipixgo sau khi điền số điện thoại
+                    vào bản đăng ký thì mấy hôm nhận được?
+                  </div>
+                </div>
+              </div>
+
+              <div class="row-y-item">
+                <div class="info">
+                  <div class="coment_ava"><img src="./images/15.jpg"></div>
+                  <span class="name">Hà Anh <span class="randdate date-0">16.05.2023</span></span>
+                  <div class="pg">Bạn ở đâu miền Nam? Mình ở tận Cà Mau mà đặt hàng khoảng 4 ngày
+                    là nhận được rồi nhé!
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="middle">
+                <div align="center">
+                  <a class="button" data-toggle="scroll"
+                     href="">ĐẶT MUA
+                    Lipixgo CHÍNH HÃNG TẠI VIỆT NAM </a>
+                </div>
+              </div>
+
+              <div style="text-align: center; border-top: solid 1px #eee; padding: 10px 20px; margin-bottom: 10px">
+                <div style="font-size: 18px; margin-bottom: 5px">
+                  Bản Quyền © 2024 Copyrightindex.com
+                </div>
+                <div style="opacity: 0.95; font-size: 16px">
+                  Tất cả quyền được bảo lưu. Nội dung này có thể không được sao chép,
+                  phân phối hoặc truyền dưới bất kỳ hình thức nào hoặc bằng bất kỳ
+                  phương tiện nào, bao gồm sao chép, ghi âm hoặc các phương tiện điện
+                  tử hoặc cơ khí khác mà không có sự cho phép bằng văn bản của nhà xuất bản.
+                  Ngoại trừ các tài liệu tham khảo ngắn gọn trong các đánh giá quan trọng
+                  và các mục đích phi thương mại khác được luật bản quyền cho phép.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="clear:both;"></div>
+      <br>
+    </div>
+  </div>
+  <!--<hr>-->
+  <!--<div id="footer" style="display:block;">-->
+  <!--    <a data-toggle="scroll" href=""><img-->
+  <!--            src="./images/logo_med.jpg" width="100%" style="max-width: 350px;"></a>-->
+  <!--    <p>Việc sử dụng các tài liệu trong trang web đã được chấp thuận nhưng cần phải để lại đường dẫn đến trang-->
+  <!--        web gốc.</p>-->
+  <!--    <p>Mã nhúng block và các tài nguyên khác được đăng trên trang web của chúng tôi có thể được sử dụng mà không-->
+  <!--        cần xin phép.</p>-->
+  <!--</div>-->
+</div>
+
+
+<footer class="footer">
+  <div class="footer__container">
+    <span>LIÊN HỆ VỚI CHÚNG TÔI:</span>
+    <div class="footer__container__links">
+      <a href="">Liên hệ tòa soạn</a>
+      <a href="">Hotline: 0315894513</a>
+      <a href="">Giới thiệu tòa soạn</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="./js/modal.js"></script>
+
+<script>
+  function startTimer() {
+    console.log('startTimer')
+    let goodsCount = document.getElementById("goodsCount")
+    let goodsCountTop = window.pageYOffset + goodsCount.getBoundingClientRect().top
+    let startGoodsCount = 39
+    let interval = setInterval(function () {
+      if (startGoodsCount > 3) {
+        startGoodsCount--
+      } else {
+        clearInterval(interval)
+      }
+      goodsCount.innerHTML = `${startGoodsCount}`
+    }, 7500)
+  }
+
+  function checkTimerTop() {
+    let goodsCount = document.getElementById("goodsCount")
+    let goodsCountTop = window.pageYOffset + goodsCount.getBoundingClientRect().top
+    if (window.pageYOffset + 500 > goodsCountTop) {
+      document.removeEventListener("scroll", checkTimerTop)
+      startTimer()
+    }
+  }
+
+  document.addEventListener("scroll", checkTimerTop)
+</script>
+
+<script>
+  const target = 'form' // Здесь указыватся id блока, к которому будет скролить ссылки с пустым href
+
+  const aTags = [...document.getElementsByTagName('a'), ...document.getElementsByClassName('linkToForm')]
+  for (let i = 0; i < aTags.length; i++) {
+    let aTag = aTags[i]
+    let href = aTag.getAttribute('href')
+
+    aTag.addEventListener('click', function (event) {
+      event.preventDefault()
+      document.getElementById(target).scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    })
+
+
+  }
+</script>
+
+<!-- Маска для номера -->
+<link rel="stylesheet" href="css/intlTelInput.min.css"/>
+<style>
+  div.iti {
+    width: 100%;
+    height: 100%;
+  }
+
+  div.iti ul.iti__country-list {
+    max-height: 80vh;
+  }
+
+  .iti__flag-container {
+    display: none;
+  }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.js"
+        integrity="sha512-GKEK9SOXk4P4vIduy3P9BwkLvOHoFuGBtGnmVIF5StxOE0ZavtF5Q06+fmUJq2ePMVm/E4us1ISOAoPc2ZMYVQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+  const country = "VN" // здесь указываем страну для валидации
+
+  const phoneInputs = document.querySelectorAll('input[name="phone"]')
+  for (let i = 0; i < phoneInputs.length; i++) {
+    let phoneInput = phoneInputs[i]
+    let inp = intlTelInput(phoneInput, {
+      initialCountry: country,
+      autoFormat: true,
+      nationalMode: false,
+      allowDropdown: false,
+      utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
+    });
+
+    // Если поле пустое, добавляем при клике код гео
+    /*phoneInput.addEventListener('focus', function (event) {
+      if (phoneInput.value.length === 0) {
+        countryData = inp.getSelectedCountryData()
+        dialCode = countryData.dialCode
+        phoneInput.value = "+" + dialCode
+      }
+    })*/
+
+    /*phoneInput.addEventListener('input', function (event) {
+      phoneInput.value = phoneInput.value.replace(/[^0-9+]/g, '')
+    })*/
+  }
+</script>
+<!-- end -->
+
+
+
+
+
+<script src="js/yback.js"
+        data-backlink=""
+        data-showcaselink=""
+        data-traceenabled="false"
+        data-redirect="true"
+        data-isoff="false">
+</script>
+
+</body>
+
+</html>

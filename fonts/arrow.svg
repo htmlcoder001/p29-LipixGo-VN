@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" viewBox="0 0 22 22" version="1.1" x="0px"
+    y="0px" preserveAspectRatio="none" width="22px" height="22px" class=""
+    fill="rgba(48, 128, 232, 1)">
+    <title>
+        arrow-down_download_outline_stroke
+    </title>
+    <description>Created with Sketch.
+    </description>
+    <defs>
+        <path id="a"
+            d="M15,15.5999985 L15,14.5 L11.4984375,17 L11.4984374,3 L10.5,3 L10.5,17 L7,14.5 L7,15.5999985 L11,18.5 L15,15.5999985 Z">
+        </path>
+    </defs>
+    <g stroke="none" stroke-width="1" fill-rule="evenodd" sketch:type="MSPage">
+        <g>
+            <use fill-rule="evenodd" sketch:type="MSShapeGroup" xlink:href="#a"></use>
+            <use xlink:href="#a"></use>
+        </g>
+    </g>
+</svg>
